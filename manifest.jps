@@ -1,0 +1,58 @@
+type: update
+version: 1.4
+name: SNMP installation and configuration
+categories: [“apps/dev-and-admin-tools”]
+displayName: SNMP agent Add-on
+logo: none
+description: |
+Install and configure SNMP service on containers
+
+settings:
+ fields:
+ - type: string
+   name: SNMP_COMMUNITY
+   caption: SNMP community
+   required: true
+   placeholder: community
+
+ - type: string
+   name: MONITORING_SERVER
+   caption: Allowed IP server
+   required: true
+   placeholder: 10.10.10.10
+
+ - type: list
+   name: NODE_TYPE
+   caption: Node type
+   default: centos7
+   editable: true
+   values:
+     bl: load balancer
+     cp: cp
+     cache: cache
+     sqldb: sqldb
+     nosqldb: nosqldb
+     storage: storage
+     build: build
+     centos7: centos7
+     ubuntu16-04: Ubuntu 16
+
+onInstall:
+ if (settings.NODE_TYPE != ‘ubuntu16-04’):
+ - log: Install & configure SNMP agent
+ - cmd[${settings.NODE_TYPE}]:
+    - yum install -y net-snmp*
+    - mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.backup
+    - touch /etc/snmp/snmpd.conf
+    - echo “rocommunity ${settings.SNMP_COMMUNITY} ${settings.MONITORING_SERVER}” > /etc/snmp/snmpd.conf
+    - sed -i ‘64i\-A INPUT -m state -s ${settings.MONITORING_SERVER} -p udp --dport 161 -j ACCEPT’ /etc/sysconfig/iptables
+   sayYes: true
+   user: root
+   
+ - log: Start SNMP agent
+ - cmd[${settings.NODE_TYPE}]:
+     - /etc/init.d/snmpd restart
+   user: root
+
+success: |
+ You can now monitor your container with SNMP protocol by this monitoring server ${settings.MONITORING_SERVER}.
