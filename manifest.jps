@@ -18,7 +18,7 @@ settings:
  - type: string
    name: MONITORING_SERVER
    caption: Allowed IP server
-   required: true
+   required: false
    placeholder: 10.10.10.10
 
  - type: list
