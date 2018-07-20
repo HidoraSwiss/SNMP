@@ -44,7 +44,7 @@ onInstall:
     - yum install -y net-snmp*
     - mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.backup
     - touch /etc/snmp/snmpd.conf
-    - echo “rocommunity ${settings.SNMP_COMMUNITY} ${settings.MONITORING_SERVER}” > /etc/snmp/snmpd.conf
+    - echo 'rocommunity ${settings.SNMP_COMMUNITY} ${settings.MONITORING_SERVER}' > /etc/snmp/snmpd.conf
     - iptables -A INPUT -p udp --dport 161 -j ACCEPT
     sayYes: true
     user: root
