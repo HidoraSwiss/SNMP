@@ -5,8 +5,7 @@ name: SNMP installation and configuration
 categories: [“apps/dev-and-admin-tools”]
 displayName: SNMP agent Add-on
 logo: none
-description: |
-Install and configure SNMP service on containers
+description: Install and configure SNMP service on containers
 
 settings:
  fields:
