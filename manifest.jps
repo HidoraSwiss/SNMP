@@ -45,7 +45,8 @@ onInstall:
     - mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.backup
     - touch /etc/snmp/snmpd.conf
     - echo 'rocommunity ${settings.SNMP_COMMUNITY} ${settings.MONITORING_SERVER}' > /etc/snmp/snmpd.conf
-    - iptables -A INPUT -p udp --dport 161 -j ACCEPT
+    - iptables -I INPUT -p udp -m udp --dport 161 -j ACCEPT
+    - iptables-save > /etc/sysconfig/iptables
     sayYes: true
     user: root
    
