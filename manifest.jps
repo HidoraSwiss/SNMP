@@ -46,6 +46,8 @@ onInstall:
     - touch /etc/snmp/snmpd.conf
     - echo 'rocommunity ${settings.SNMP_COMMUNITY} ${settings.MONITORING_SERVER}' > /etc/snmp/snmpd.conf
     - iptables -I INPUT -p udp -m udp --dport 161 -j ACCEPT
+    - iptables -I INPUT -i venet0 -p icmp -j ACCEPT 
+    - iptables -I OUTPUT -o venet0 -p icmp -j ACCEPT 
     - iptables-save > /etc/sysconfig/iptables
     sayYes: true
     user: root
