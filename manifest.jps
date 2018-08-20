@@ -49,6 +49,7 @@ onInstall:
     - iptables -I INPUT -i venet0 -p icmp -j ACCEPT 
     - iptables -I OUTPUT -o venet0 -p icmp -j ACCEPT 
     - iptables-save > /etc/sysconfig/iptables
+    - systemctl enable snmpd
     sayYes: true
     user: root
    
